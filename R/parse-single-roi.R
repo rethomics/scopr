@@ -1,0 +1,61 @@
+# we obtain data from one ROI and optionaly preanalyse it, by applying FUN.
+parse_single_roi <- function(data,
+                        min_time = 0,
+                        max_time = +Inf,
+                        reference_hour = NULL,
+                        verbose = TRUE,
+                        columns = NULL,
+                        FUN = NULL,
+                        ...){
+
+  region_id <- data$region_id
+  experiment_id <- data$experiment_id
+  path <- data$path
+
+  if(verbose)
+    cat(sprintf("Loading ROI number %i from:\n\t%s\n",region_id,path))
+
+  if(tools::file_ext(path) == "db")
+    loading_FUN <- read_single_roi
+  else if(tools::file_ext(path) == "rdb")
+    stop("rdb file type no longer supported")
+    #loadingFUN <- loadOneROICached
+  else
+    stop(sprintf("Unsuported file extention in %s",path))
+
+
+  out <- loading_FUN(path,
+                     region_id=region_id,
+                     min_time = min_time,
+                     max_time = max_time,
+                     reference_hour = reference_hour,
+                     columns=columns)
+
+  if(is.null(out) || nrow(out) == 0){
+    warning(sprintf("No data in ROI %i, from FILE %s. Skipping",region_id, path))
+    return(NULL)
+  }
+
+
+  id <- paste(region_id,experiment_id, sep="|")
+
+  old_cols <- data.table::copy(names(out))
+  out[,id := id]
+  data.table::setcolorder(out,c("id", old_cols))
+  data.table::setkeyv(out, "id")
+
+  meta <- data.table::as.data.table(data)
+  meta <- cbind(id=id,meta)
+  data.table::setkeyv(meta, "id")
+
+  out <- behavr::behavr(out, meta)
+
+  if(!is.null(FUN)){
+    out <- FUN(out,...)
+    if(is.null(out)){
+      warning(sprintf("No data in ROI %i after running FUN, from FILE %s. Skipping",region_id, path))
+      return(NULL)
+    }
+  }
+  out
+}
