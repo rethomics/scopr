@@ -1,4 +1,4 @@
 library(testthat)
-library(damr)
+library(scopr)
 
-test_check("damr")
+test_check("scopr")

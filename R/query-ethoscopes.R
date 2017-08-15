@@ -1,4 +1,5 @@
 #' @importFrom data.table ":="
+#' @importFrom data.table "key"
 NULL
 
 #' Read data from an ethoscope result file
@@ -15,10 +16,12 @@ NULL
 #' It is also relative to the start of the experiment.
 #' @param reference_hour Hour, in the day, to use as ZT0 reference.
 #' When unspecified, time will be relative to the start of the experiment.
-#' @param verbose whether to print progress (a logical).
+#' @param verbose whether to print progress (a logical)
 #' @param columns Optionnal vector of columns to be selected from the db file.
 #' Time (t) is always implicitely selected.
-#' @param ncores Number of cores to use for optionnal parallel processing.
+#' @param cache_dir where to cache (make a fast access local copy) of the data.
+#' NULL, the default, means no caching.
+#' @param ncores Number of cores to use for optionnal parallel processing
 #' @param FUN function (optional) to transform the data from each animal
 #' immediately after is has been loaded.
 #' @param ... extra arguments to be passed to `FUN`
@@ -37,18 +40,22 @@ NULL
 #' }
 #' @seealso TODO
 #' @export
-query_ethoscopes <- function(result_dir,
-                              query=NULL,
+query_ethoscopes <- function(result_dir = NULL,
+                              query = NULL,
                               min_time = 0,
                               max_time = Inf,
-                              reference_hour=NULL,
-                              verbose=TRUE,
+                              reference_hour = NULL,
+                              verbose = TRUE,
                               columns = NULL,
-                              ncores=1,
-                              FUN=NULL,
+                              cache_dir = NULL,
+                              ncores = 1,
+                              FUN = NULL,
                               ...){
-  # from the `what` argument, we build a `master_table` that we will map to the actual data.
-  master_table <- makeMasterTable(query)
+
+  master_table <- parse_query(query, result_dir)
+  if(is.null(query)){
+    return(master_table)
+  }
 
   # Each row of master table refers to a unique ROI. to each ROI we apply the function `parseOneROI`
   # and get each ROI in a dt.
@@ -104,3 +111,5 @@ query_ethoscopes <- function(result_dir,
   setkeyv(out, colnames(master_table))
   out
   }
+
+
