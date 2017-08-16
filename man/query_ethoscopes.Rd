@@ -52,9 +52,7 @@ That is it loads multiple \code{.db`` files into a single}R` \link[behavr:behavr
 todo
 }
 \examples{
-\donttest{
-todo
-}
+
 }
 \seealso{
 \itemize{

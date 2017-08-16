@@ -32,9 +32,7 @@ NULL
 #' @details
 #' todo
 #' @examples
-#' \donttest{
-#' todo
-#' }
+#'
 #' @seealso
 #' * [behavr::behavr] -- to understand the output format
 #' * [parse_query] -- to generate a query
