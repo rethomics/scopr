@@ -37,7 +37,7 @@ parse_single_roi <- function(data,
   }
 
 
-  id <- paste(region_id,experiment_id, sep="|")
+  id <- sprintf("%02d|%s",region_id,experiment_id)
 
   old_cols <- data.table::copy(names(out))
   out[,id := id]
@@ -46,6 +46,11 @@ parse_single_roi <- function(data,
 
   meta <- data.table::as.data.table(data)
   meta <- cbind(id=id,meta)
+  meta[, path_list := lapply(path, function(x){
+    list(list(file=basename(x),path=x))
+    })]
+  meta[, path:=NULL]
+  data.table::setnames(meta, "path_list", "path")
   data.table::setkeyv(meta, "id")
 
   out <- behavr::behavr(out, meta)

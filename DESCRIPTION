@@ -12,6 +12,7 @@ Imports:
   data.table,
   hms,
   readr,
+  stringr,
   RSQLite
 Suggests: testthat
 License: GPL-3

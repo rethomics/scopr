@@ -1,29 +1,67 @@
 context("query_ethoscopes")
 
 test_that("query ethoscopes works", {
-
-  dir <- scopr_example_dir()
-
-
-  expect_warning(a <- scopr:::read_single_roi(test_file,region_id = 90), "does not exist")
-  expect_null(a)
-  expect_error(scopr:::read_single_roi(test_file,region_id = 1, min_time = 1000, max_time = 20), "min_time can only be lower than max_time")
-
-  # z does not exist in data
-  expect_error(scopr:::read_single_roi(test_file,region_id = 1, columns=c("x", "z")), "Some of the requested columns are NOT available")
-
-  a <- scopr:::read_single_roi(test_file,region_id = 1)
-  a
+  dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+  query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
+                      date = c("2016-01-25", "2016-02-17","2016-01-25"),
+                      time = c("21:46:14", NA, NA),
+                      test=c(1,2,3)
+                      )
+  query <- parse_query(query,dir)
+  dt <- query_ethoscopes(query, verbose=F)
+  expect_equal(nrow(dt[meta=TRUE]), 60)
 })
 
 
-test_that("loading data works", {
-  dir <- scopr_example_dir()
-  test_file <- paste(dir, "ethoscope_results/029/E_029/2016-01-25_21-14-55/2016-01-25_21-14-55_029.db",sep="/")
-  #test_file  <- "/data/ethoscope_results/053c6ba04e534be486069c3db7b10827/ETHOSCOPE_053/2017-05-08_15-41-30/2017-05-08_15-41-30_053c6ba04e534be486069c3db7b10827.db"
-  a <- scopr:::read_single_roi(test_file,region_id = 1)
-  # a
+test_that("query ethoscopes works with multiple cores", {
+  dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+  query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
+                      date = c("2016-01-25", "2016-02-17","2016-01-25"),
+                      time = c("21:46:14", NA, NA),
+                      test=c(1,2,3)
+  )
+  query <- parse_query(query, dir)
+  dt <- query_ethoscopes(query, verbose=F)
+  dt_m <- query_ethoscopes(query, ncores=2, verbose=F)
+  expect_identical(dt_m, dt)
 })
-
-
-
+#
+#dir <- "/data/ethoscope_results"
+#QUERY_FILE = "/home/quentin/comput/sleep_analysis_experiments-git/ethoscope_paper/20160404_overnight_dsd/query.csv"
+#q <- parse_query(QUERY_FILE, dir)[status=="OK"]
+# dt <- query_ethoscopes(q[machine_name=="ETHOSCOPE_018"], dir, columns=c("x"), max_time=100)
+# system.time(dt <- query_ethoscopes(q[1:100], dir, ncores=8))
+# system.time(dt <- query_ethoscopes(q[1:100], dir, ncores=1))
+#
+#
+#
+# Error in find.package(if (is.null(package)) loadedNamespaces() else package,  :
+#                         there is no package called ‘.GlobalEnv’
+#                       11.
+#                       as.character(jsub[[1L]]) %chin% c("list", ".")
+#                       10.
+#                       `[.data.table`(roi_dt, , `:=`(t, t/1000)) at read-single-roi.R#69
+#                       9.
+#                       roi_dt[, `:=`(t, t/1000)] at read-single-roi.R#69
+#                       8.
+#                       tryCatchList(expr, classes, parentenv, handlers)
+#                       7.
+#                       tryCatch({
+#                         var_map <- data.table::as.data.table(RSQLite::dbGetQuery(con,
+#                                                                                  "SELECT * FROM VAR_MAP"))
+#                         data.table::setkey(var_map, var_name) ... at read-single-roi.R#16
+#                         6.
+#                         loading_FUN(path, region_id = region_id, min_time = min_time,
+#                                     max_time = max_time, reference_hour = reference_hour, columns = columns) at parse-single-roi.R#27
+#                         5.
+#                         FUN(X[[i]], ...)
+#                         4.
+#                         lapply(l_rows, parse_single_roi, min_time, max_time, reference_hour,
+#                                verbose, columns = columns, FUN, ...) at query-ethoscopes.R#62
+#                         3.
+#                         FUN(X[[i]], ...)
+#                         2.
+#                         lapply(q_l, load_fun) at query-ethoscopes.R#75
+#                         1.
+#                         query_ethoscopes(q, dir, columns = c("x"), max_time = 100)
+#

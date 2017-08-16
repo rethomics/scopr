@@ -43,6 +43,12 @@ build_query <- function(result_dir,
   #todo
   if(is.null(index_file))
     check_dir_exists(result_dir)
+
+  files_info <- list_result_files(result_dir)
+
+  if(is.null(query))
+    return(files_info)
+
   key <- c("date", "time","machine_name")
   #use_date <- FALSE
   if(!is.null(query)){
@@ -52,68 +58,11 @@ build_query <- function(result_dir,
     if(!"time" %in% colnames(q))
       q[, time := NA_character_]
 
-    #query_date <- q[, parse_datetime(date, tz="UTC")]
     q[, date := parse_date(date, tz="UTC")]
     q[, time := parse_time(time, tz="UTC")]
-#    use_date <- TRUE
     data.table::setkeyv(q,key)
   }
 
-  if(is.null(index_file)){
-      all_db_files <- list.files(result_dir,recursive=T, pattern="*\\.db$")
-  }
-  else{
-    all_db_files <- scan(index_file, what="character")
-  }
-
-  fields <- strsplit(all_db_files,"/")
-  valid_files <- sapply(fields,length) == 4
-
-  all_db_files <- all_db_files[valid_files]
-
-  invalids = fields[!valid_files]
-  if(length(invalids) > 0){
-    warning("There are some invalid files:")
-
-    for(i in 1:length(invalids)){
-      warning(paste(invalids[[i]]),sep='/')
-    }
-  }
-
-  fields <- fields[valid_files]
-  files_info <- do.call("rbind",fields)
-
-  if(length(all_db_files) == 0){
-    stop(sprintf("No .db files detected in the directory '%s'. Ensure it is not empty.",result_dir))
-  }
-  files_info <- do.call("rbind",fields)
-  files_info <- data.table::as.data.table(files_info)
-
-  data.table::setnames(files_info, c("machine_id", "machine_name", "datetime","file"))
-
-  parse_datetime <- function(x){
-    out <- strsplit(x, "_")
-    out <-lapply(out,function(y){
-      data.frame(date = scopr:::parse_date(y[1]),
-                 time= scopr:::parse_time(y[2],format="%H-%M-%S")
-      )
-    })
-    data.table::rbindlist(out)
-  }
-  files_info <- cbind(files_info,parse_datetime(files_info$datetime))
-
-   #if(use_date)
-    # files_info[,date:=as.POSIXct(date, "%Y-%m-%d", tz="UTC")]
-
-  files_info[, datetime := as.POSIXct(datetime, "%Y-%m-%d_%H-%M-%S", tz="UTC")]
-
-  files_info[,path := paste(result_dir,all_db_files,sep="/")]
-  data.table::setkeyv(files_info,key)
-
-  if(is.null(query))
-    return(files_info)
-
-  #files_info[,n_per_date:=.N,by=c("machine_name", "date")]
   unique_fi = files_info[,.SD[.N],by=key(files_info)]
 
   out <- unique_fi[q, on=c("machine_name","date")]
@@ -167,14 +116,11 @@ build_query <- function(result_dir,
     }
   }
 
-
   out[, date := NULL]
   out[, time := NULL]
   out[, i.time := NULL]
   out <- na.omit(out)
 
-
   data.table::setkeyv(out, colnames(out))
   out
 }
-
