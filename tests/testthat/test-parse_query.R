@@ -43,11 +43,15 @@ test_that("parse_query with date, machine name, and ROIs", {
 
   )
 
+  # no_region_id_query <- as.data.frame(query)
+  # devtools::use_data(no_region_id_query, overwrite = TRUE)
+
   query <- data.table::as.data.table(query)
   query <- query[,.(region_id=1:5),by=c(colnames(query))]
+  query[, treatment := 1:3]
 
-  #region_id_query <- as.data.frame(out)
-  #devtools::use_data(region_id_query)
+  #region_id_query <- as.data.frame(query)
+  #devtools::use_data(region_id_query, overwrite = TRUE)
 
   out <- scopr:::parse_query(query, dir)
   expect_equal(nrow(out), 3*5)

@@ -32,6 +32,26 @@ NULL
 #' @details
 #' todo
 #' @examples
+#' dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+#' data(region_id_query)
+#' query <- parse_query(region_id_query, dir)
+#' print(query)
+#'
+#' # default data loading
+#' dt <- query_ethoscopes(query)
+#' dt
+#'
+#' # we use reference hour to set zt0 to 09:00 GMT
+#' dt <- query_ethoscopes(query, reference_hour=9)
+#' dt
+#'
+#' #' # only load x and y positions
+#' dt <- query_ethoscopes(query, columns=c("x", "y"), reference_hour=9)
+#' dt
+#' # apply function whilst loading the data
+#' # todo use sleepr
+#' dt <- query_ethoscopes(query, reference_hour=9, FUN=head)
+#' dt
 #'
 #' @seealso
 #' * [behavr::behavr] -- to understand the output format

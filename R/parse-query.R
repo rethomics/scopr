@@ -26,9 +26,15 @@
 #'     * `???` -- any number of arbitrary columns* to associate `conditions`/`treatments`/`genotypes`/... to the previous columns.
 #'
 #' @examples
-#' \donttest{
-#' todo
-#' }
+#' # a query with no region_id, all regions will be loaded with the same metadata
+#' dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+#' data(no_region_id_query)
+#' query <- parse_query(no_region_id_query, dir)
+#' print(query)
+#' # a query with region_id, only stated regions will be loaded with specific metadata
+#' data(region_id_query)
+#' query <- parse_query(region_id_query, dir)
+#' print(query)
 #' @seealso
 #' * [query_ethoscopes] -- to load the actual data
 #' * [list_result_files] -- to list available file

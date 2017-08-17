@@ -16,8 +16,8 @@ build_query <- function(result_dir,
     if(!"time" %in% colnames(q))
       q[, time := NA_character_]
 
-    q[, date := scopr:::parse_date(date, tz="UTC")]
-    q[, time := scopr:::parse_time(time, tz="UTC")]
+    q[, date := parse_date(date, tz="UTC")]
+    q[, time := parse_time(time, tz="UTC")]
     data.table::setkeyv(q,key)
   }
 

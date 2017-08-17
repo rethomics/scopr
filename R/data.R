@@ -1,15 +1,13 @@
-#' A simple toy query defining the experimental conditions of
-#' 32 animals monitored at the same time in a single DAM2 monitor.
-#' Each animal has its own channel (region_id), as well as a condition and genotype.
-#' It serves as an example for [query_dam2].
+#' A simple toy query defining three experiments to query, with one condition (`test`) per experiment.
+#' Implicitly, 20 animals are in each experiment
+#' It serves as a simple example.
 #'
 #' @author Quentin Geissmann
-#"single_file_query"
+"no_region_id_query"
 
-#' A toy query defining the experimental conditions of
-#' 64 animals monitored at the same time in two separate DAM2 monitors.
-#' Each animal has its own channel (region_id), as well as a condition and genotype.
-#' It serves as an example for [query_dam2].
-#'
+#' A simple toy query experimental conditions for 15 animals in three experiments.
+#' the condition (`test`) is linked to the experiments, and another condition (`treatment`) is per animal.
+#' It serves as a simple example.
+#'#'
 #' @author Quentin Geissmann
-#"two_files_query"
+"region_id_query"
