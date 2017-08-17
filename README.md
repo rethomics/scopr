@@ -1,4 +1,4 @@
-# `scopr` [![Travis-CI Build Status](https://travis-ci.org/rethomics/scopr.svg?branch=master)](https://travis-ci.org/rethomics/scopr)[![Coverage Status](https://img.shields.io/codecov/c/github/rethomics/damr/master.svg)](https://codecov.io/github/damr/behavr?branch=master)
+# `scopr` [![Travis-CI Build Status](https://travis-ci.org/rethomics/scopr.svg?branch=master)](https://travis-ci.org/rethomics/scopr)[![Coverage Status](https://img.shields.io/codecov/c/github/rethomics/scopr/master.svg)](https://codecov.io/github/scopr/behavr?branch=master)
 
 <!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/hms?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/hms)  -->
 
