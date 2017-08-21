@@ -25,7 +25,7 @@ When unspecified, time will be relative to the start of the experiment.}
 \item{columns}{optionnal vector of columns to be selected from the db file.
 Time (t) is always implicitely selected.}
 
-\item{cache}{the name of a local file \code{.rb} to cache results for faster subsequent data loading}
+\item{cache}{the name of a local directory to cache results for faster subsequent data loading}
 
 \item{ncores}{number of cores to use for optionnal parallel processing}
 
