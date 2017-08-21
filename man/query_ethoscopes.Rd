@@ -5,8 +5,8 @@
 \title{Read data from ethoscope result files}
 \usage{
 query_ethoscopes(query, min_time = 0, max_time = Inf,
-  reference_hour = NULL, verbose = TRUE, columns = NULL, ncores = 1,
-  FUN = NULL, ...)
+  reference_hour = NULL, verbose = TRUE, columns = NULL, cache = NULL,
+  ncores = 1, FUN = NULL, ...)
 }
 \arguments{
 \item{query}{\link[data.table:data.table]{data.table::data.table} obtained by \link{parse_query}}
@@ -24,6 +24,8 @@ When unspecified, time will be relative to the start of the experiment.}
 
 \item{columns}{optionnal vector of columns to be selected from the db file.
 Time (t) is always implicitely selected.}
+
+\item{cache}{the name of a local file \code{.rb} to cache results for faster subsequent data loading}
 
 \item{ncores}{number of cores to use for optionnal parallel processing}
 

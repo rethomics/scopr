@@ -18,6 +18,7 @@ NULL
 #' @param verbose whether to print progress (a logical)
 #' @param columns optionnal vector of columns to be selected from the db file.
 #' Time (t) is always implicitely selected.
+#' @param cache the name of a local file `.rb` to cache results for faster subsequent data loading
 #' @param ncores number of cores to use for optionnal parallel processing
 #' @param FUN function (optional) to transform the data from each individual
 #' immediately after is has been loaded.
@@ -65,7 +66,7 @@ query_ethoscopes <- function( query,
                               reference_hour = NULL,
                               verbose = TRUE,
                               columns = NULL,
-                              #cache_dir = NULL,
+                              cache = NULL,
                               ncores = 1,
                               FUN = NULL,
                               ...){
@@ -84,6 +85,7 @@ query_ethoscopes <- function( query,
                    reference_hour = reference_hour,
                    verbose = verbose,
                    columns=columns,
+                   cache=cache,
                    FUN,...)
     # if any element of the list is `NULL`, then it is removed
     l_dt <- l_dt[!sapply(l_dt,is.null)]

@@ -4,7 +4,9 @@ read_single_roi <- function( FILE,
                              min_time = 0,
                              max_time = +Inf,
                              reference_hour = NULL,
-                             columns = NULL){
+                             columns = NULL,
+                             time_stamp=NULL # only used for memoisation
+                             ){
 
   metadata <- read_metadata(FILE)
 
