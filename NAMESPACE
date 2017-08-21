@@ -2,6 +2,7 @@
 
 export(list_result_files)
 export(parse_query)
+export(parse_remote_query)
 export(query_ethoscopes)
 export(read_metadata)
 export(scopr_example)

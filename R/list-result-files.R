@@ -23,9 +23,11 @@ list_result_files <- function(result_dir, index_file=NULL){
 
   if(!is.null(index_file)){
     index_file <- paste(result_dir, index_file, sep="/")
-    if(!file.exists(index_file))
-      stop("Index file not found")
-    all_db_files <- scan(index_file, what="character", quiet = TRUE)
+    tryCatch({dt_all_files  <- data.table::fread(index_file, header=F)},
+             error = function(e) stop(sprintf("Could not find index file: %s",
+                                         index_file)))
+
+    all_db_files <- dt_all_files$V1
   }
   else{
     all_db_files <- list.files(result_dir,recursive=T, pattern="*\\.db$")
@@ -68,5 +70,6 @@ list_result_files <- function(result_dir, index_file=NULL){
   files_info[, datetime := as.POSIXct(datetime, "%Y-%m-%d_%H-%M-%S", tz="UTC")]
 
   files_info[,path := paste(result_dir,all_db_files,sep="/")]
+
   data.table::setkeyv(files_info,key)
 }

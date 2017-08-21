@@ -25,13 +25,14 @@ test_that("query ethoscopes works with multiple cores", {
   dt_m <- query_ethoscopes(query, ncores=2, verbose=F)
   expect_identical(dt_m, dt)
 })
-#
-#dir <- "/data/ethoscope_results"
-#QUERY_FILE = "/home/quentin/comput/sleep_analysis_experiments-git/ethoscope_paper/20160404_overnight_dsd/query.csv"
-#q <- parse_query(QUERY_FILE, dir)[status=="OK"]
-# dt <- query_ethoscopes(q[machine_name=="ETHOSCOPE_018"], dir, columns=c("x"), max_time=100)
+# #
+# dir <- "/data/ethoscope_results"
+# QUERY_FILE = "/home/quentin/comput/sleep_analysis_experiments-git/ethoscope_paper/20160404_overnight_dsd/query.csv"
+# q <- parse_query(QUERY_FILE, dir)[status=="OK"]
+#dt <- query_ethoscopes(q[machine_name=="ETHOSCOPE_018"], dir, columns=c("x"), max_time=100)
+
+#system.time(dt <- query_ethoscopes(q[1:100], cache="~/Desktop/ethoscope_cache"))
 # system.time(dt <- query_ethoscopes(q[1:100], dir, ncores=8))
-# system.time(dt <- query_ethoscopes(q[1:100], dir, ncores=1))
 #
 #
 #

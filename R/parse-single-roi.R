@@ -20,12 +20,9 @@ parse_single_roi <- function(data,
     stop(sprintf("Unsuported file extention in %s",path))
 
   # for memoisation
-
-
-
   if(!is.null(cache)){
     time_stamp = file.info(path)["mtime"]
-    db <- memoise::cache_filesystem(cache)
+    db <- memoise::cache_filesystem(cache, algo="md5")
     read_single_roi_memo <- memoise::memoise(read_single_roi, cache=db)
   }
 
