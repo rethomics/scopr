@@ -50,7 +50,7 @@ parse_remote_query <- function(x,
   remote_query[, id := 1:nrow(remote_query)]
   remote_query[, mirror_ethoscope_results(path,
                                           dst_path,
-                                          overwrite_local=TRUE,
+                                          overwrite_local = overwrite_local,
                                           remote_size = file_size__,
                                           verbose=verbose) ,
                by=id]
@@ -89,6 +89,7 @@ is_remote_newer <- function(local, remote_size){
   local_size <- file_size(local)
   if(is.na(local_size))
     return(TRUE)
+
   if(local_size != remote_size & !is.na(remote_size))
     return(TRUE)
   return(FALSE)
