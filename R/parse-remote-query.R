@@ -92,14 +92,14 @@ is_remote_newer <- function(local, last_point_remote){
 }
 
 last_point_db <- function(FILE){
-  max_t <- NA
+  max_t <- NA_integer_
   tryCatch({
     con = NULL
     rois <- list_all_rois(FILE)
     con <- RSQLite::dbConnect(RSQLite::SQLite(), FILE, flags=RSQLite::SQLITE_RO)
     max_t <- max(sapply( rois, function(x){
       command <- sprintf("SELECT t FROM ROI_%i ORDER BY id DESC LIMIT 1", x)
-      RSQLite::dbGetQuery(con, command)$t
+      as.integer(RSQLite::dbGetQuery(con, command)$t)
     }))
   }, error = function(e){},
   finally = {if(!is.null(con)) RSQLite::dbDisconnect(con)})
