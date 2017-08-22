@@ -1,5 +1,6 @@
 #' @importFrom data.table ":="
 #' @importFrom data.table "key"
+#' @import behavr
 NULL
 
 #' Read data from ethoscope result files
@@ -59,6 +60,8 @@ NULL
 #' * [parse_query] -- to generate a query
 #' * [read_metadata] -- to show the metadata of a specific experiment
 #' * [list_result_files] -- to list available files
+#' @references
+#' * todo
 #' @export
 query_ethoscopes <- function( query,
                               min_time = 0,

@@ -1,6 +1,7 @@
 #' Build a query for loading ethoscope data
 #'
-#' This function makes a query table, which is essential for subsequent loading of ethoscope data (via [query_ethoscopes]).
+#' These functions make a query table, which is essential for subsequent loading of
+#' ethoscope data (via [query_ethoscopes]).
 #'
 #' @param x object such as a [data.frame], or the name of a file (see detail)
 #' @param result_dir the root directory where all data are saved
@@ -12,9 +13,9 @@
 #' * `region_id` -- a unique identifier of each individual (region of interest) within an experiment
 #' * Variables already present in x (if x was a `data.frame`).
 #' @details
-#' This function will generate a query from tree different types of inputs:
-#' 1. A vector of names of `.db` files
-#' 2. A [data.frame] (recomended).
+#' These function will generate a query from three different types of inputs:
+#' 1. A vector of names of `.db` files (only for local queries with `parse_query`)
+#' 2. A [data.frame] (recomended)
 #' In this case, the function will try to match requested data with data available on `result_dir`.
 #' The provided [data.table] has typically one row per requested individial and the columns
 #' (not necessarily in this order):
@@ -24,7 +25,7 @@
 #'     * `time` -- the start time of the experiment formated as "HH:MM:SS".
 #'        When *not provided*, and multiple expriment for the same machine exist, *only the last one is loaded*.
 #'     * `???` -- any number of arbitrary columns* to associate `conditions`/`treatments`/`genotypes`/... to the previous columns.
-#'
+#' 3. The name of a CSV file that contains a table as described in 2.
 #' @examples
 #' # a query with no region_id, all regions will be loaded with the same metadata
 #' dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
@@ -35,9 +36,11 @@
 #' data(region_id_query)
 #' query <- parse_query(region_id_query, dir)
 #' print(query)
+#' @name parse_query
 #' @seealso
 #' * [query_ethoscopes] -- to load the actual data
 #' * [list_result_files] -- to list available file
+#' @references
 #' * TODO -- to understand the magical power of the query system!
 #' @export
 parse_query <- function(x, result_dir=NULL, index_file=NULL){

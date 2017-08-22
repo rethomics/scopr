@@ -76,6 +76,11 @@ dt <- query_ethoscopes(query, reference_hour=9, FUN=head)
 dt
 
 }
+\references{
+\itemize{
+\item todo
+}
+}
 \seealso{
 \itemize{
 \item \link[behavr:behavr]{behavr::behavr} -- to understand the output format

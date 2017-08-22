@@ -1,36 +1,68 @@
-#' @inheritParams parse_query
+#' @rdname parse_query
+#' @param remote_dir the url of the result directory on the data server
+#' @param overwrite_local whether to download all files.
+#' The default, `FALSE`, is to only fetch files if they are newer on the remote.
+#' @inheritParams query_ethoscopes
 #' @export
-parse_remote_query <- function(query,
+parse_remote_query <- function(x,
                                 remote_dir,
                                 result_dir,
                                 index_file="index.txt",
                                 overwrite_local=FALSE,
                                 verbose=TRUE){
 
+  query <- x
+  # if query is a readable csv file, we parse it
+  if(is.character(query) & length(query) == 1)
+    query <- data.table::fread(query)
+
+
+  if(!"path"  %in% colnames(query)){
+    check_columns(c("machine_name", "date"), query)
+
+
+
+
   remote_query <- build_query(query,
                                       result_dir = remote_dir,
                                       index_file = index_file)
+  }
 
-  # todo, fetch timestamps
   remote_query[,
-               dst_path := paste(result_dir,machine_id, machine_name, format(datetime,"%Y-%m-%d_%H-%M-%S"), file,sep="/")
+               dst_path := paste(result_dir,
+                                 machine_id,
+                                 machine_name,
+                                 format(datetime,"%Y-%m-%d_%H-%M-%S"),
+                                 file,sep="/")
                ]
+  last_points  <- data.table::fread(paste(remote_dir, index_file, sep="/"), header=F)
+  if(!"V2" %in% names(last_points)){
+    warning("No time stamp on remote index. All the files will be downloaded each time!")
+    last_points[, V2:=+Inf]
+  }
+  data.table::setnames(last_points,c("V1", "V2"), c("path", "last_point__" ))
+  last_points[, path:=paste(remote_dir,path,sep="/")]
+
+  remote_query <-last_points[remote_query, on="path"]
+print(remote_query)
+  remote_query[, last_point__:=NULL]
   remote_query <- unique(remote_query, by="path")
   remote_query[, id := 1:nrow(remote_query)]
   remote_query[, mirror_ethoscope_results(path, dst_path, overwrite_local=TRUE, verbose=verbose) ,
                by=id]
+
   parse_query(query, result_dir = result_dir)
 }
 
 
 mirror_ethoscope_results <- function(remote,
                                      local,
-                                     time_stamp_remote=+Inf,
-                                     overwrite_local=FALSE,
+                                     last_point_remote = +Inf,
+                                     overwrite_local = FALSE,
                                      verbose=TRUE){
 
   if(overwrite_local |
-     is_remote_newer(remote, local, time_stamp_remote)){
+     is_remote_newer(local, last_point_remote)){
     if(verbose)
       message(sprintf("Downloading %s to %s", remote, local))
     download_create_dir(remote, local)
@@ -49,33 +81,29 @@ download_create_dir <-function(src,dst){
 }
 
 
-is_remote_newer <- function(remote, local, time_stamp_remote){
-  if(! file.exists(local))
+is_remote_newer <- function(local, last_point_remote){
+  last_point_local <- last_point_db(local)
+  if(is.na(last_point_local))
     return(TRUE)
-  time_stamp_local <- file.info(local)["mtime"]
-  if(time_stamp_local < time_stamp_remote)
+  if(last_point_local < last_point_remote)
     return(TRUE)
   return(FALSE)
 
 }
-#
-# result_dir = "/tmp/test"
-# q <- data.table::fread("~/Desktop/test_remote/query-rutabaga.txt")
-# out <- parse_remote_query(q[1:50],
-#                      remote_dir = "ftp://nas.lab.gilest.ro/auto_generated_data/ethoscope_results/",
-#                      result_dir = result_dir,
-#                      overwrite_local = T)
-#
-# test <- query_ethoscopes(out,max_time = behavr::days(1), reference_hour = 9.0)
-# test <- query_ethoscopes(out,max_time = behavr::days(1), reference_hour = 9.0, cache = "/tmp/etho_cache")
-# test2 <- query_ethoscopes(out,max_time = behavr::days(1), reference_hour = 9.0, cache = "/tmp/etho_cache")
-#
-# sum(!test == test2)
-# out[, id:= 1:nrow(out)]
-# out[, scopr:::mirror_ethoscope_results(path, dst_path, overwrite_local=TRUE, verbose=T),
-#     by=id]
-# #
-#
-#
-#
-# out
+
+last_point_db <- function(FILE){
+  max_t <- NA
+  tryCatch({
+    con = NULL
+    rois <- list_all_rois(FILE)
+    con <- RSQLite::dbConnect(RSQLite::SQLite(), FILE, flags=RSQLite::SQLITE_RO)
+    max_t <- max(sapply( rois, function(x){
+      command <- sprintf("SELECT t FROM ROI_%i ORDER BY id DESC LIMIT 1", x)
+      RSQLite::dbGetQuery(con, command)$t
+    }))
+  }, error = function(e){},
+  finally = {if(!is.null(con)) RSQLite::dbDisconnect(con)})
+  max_t
+}
+
+
