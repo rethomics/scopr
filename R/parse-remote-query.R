@@ -40,29 +40,33 @@ parse_remote_query <- function(x,
     warning("No time stamp on remote index. All the files will be downloaded each time!")
     last_points[, V2:=+Inf]
   }
-  data.table::setnames(last_points,c("V1", "V2"), c("path", "last_point__" ))
+  data.table::setnames(last_points,c("V1", "V2"), c("path", "file_size__" ))
   last_points[, path:=paste(remote_dir,path,sep="/")]
 
   remote_query <-last_points[remote_query, on="path"]
-print(remote_query)
-  remote_query[, last_point__:=NULL]
+
+
   remote_query <- unique(remote_query, by="path")
   remote_query[, id := 1:nrow(remote_query)]
-  remote_query[, mirror_ethoscope_results(path, dst_path, overwrite_local=TRUE, verbose=verbose) ,
+  remote_query[, mirror_ethoscope_results(path,
+                                          dst_path,
+                                          overwrite_local=TRUE,
+                                          remote_size = file_size__,
+                                          verbose=verbose) ,
                by=id]
-
+  remote_query[, file_size__:=NULL]
   parse_query(query, result_dir = result_dir)
 }
 
 
 mirror_ethoscope_results <- function(remote,
                                      local,
-                                     last_point_remote = +Inf,
+                                     remote_size = NA,
                                      overwrite_local = FALSE,
                                      verbose=TRUE){
 
   if(overwrite_local |
-     is_remote_newer(local, last_point_remote)){
+     is_remote_newer(local, remote_size)){
     if(verbose)
       message(sprintf("Downloading %s to %s", remote, local))
     download_create_dir(remote, local)
@@ -81,29 +85,33 @@ download_create_dir <-function(src,dst){
 }
 
 
-is_remote_newer <- function(local, last_point_remote){
-  last_point_local <- last_point_db(local)
-  if(is.na(last_point_local))
+is_remote_newer <- function(local, remote_size){
+  local_size <- file_size(local)
+  if(is.na(local_size))
     return(TRUE)
-  if(last_point_local < last_point_remote)
+  if(local_size != remote_size & !is.na(remote_size))
     return(TRUE)
   return(FALSE)
 
 }
 
-last_point_db <- function(FILE){
-  max_t <- NA_integer_
-  tryCatch({
-    con = NULL
-    rois <- list_all_rois(FILE)
-    con <- RSQLite::dbConnect(RSQLite::SQLite(), FILE, flags=RSQLite::SQLITE_RO)
-    max_t <- max(sapply( rois, function(x){
-      command <- sprintf("SELECT t FROM ROI_%i ORDER BY id DESC LIMIT 1", x)
-      as.integer(RSQLite::dbGetQuery(con, command)$t)
-    }))
-  }, error = function(e){},
-  finally = {if(!is.null(con)) RSQLite::dbDisconnect(con)})
-  max_t
+
+file_size <- function(FILE){
+  as.numeric(file.info(FILE)["size"])
 }
-
-
+# last_point_db <- function(FILE){
+#   max_t <- NA_integer_
+#   tryCatch({
+#     con = NULL
+#     rois <- list_all_rois(FILE)
+#     con <- RSQLite::dbConnect(RSQLite::SQLite(), FILE, flags=RSQLite::SQLITE_RO)
+#     max_t <- max(sapply( rois, function(x){
+#       command <- sprintf("SELECT t FROM ROI_%i ORDER BY id DESC LIMIT 1", x)
+#       as.integer(RSQLite::dbGetQuery(con, command)$t)
+#     }))
+#   }, error = function(e){},
+#   finally = {if(!is.null(con)) RSQLite::dbDisconnect(con)})
+#   max_t
+# }
+#
+#
