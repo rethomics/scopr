@@ -47,7 +47,7 @@ parse_single_roi <- function(data,
   }
 
 
-  id <- sprintf("%02d|%s",region_id,experiment_id)
+  id <- as.factor(sprintf("%02d|%s",region_id,experiment_id))
 
   old_cols <- data.table::copy(names(out))
   out[,id := id]
