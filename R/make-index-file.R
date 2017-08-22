@@ -1,7 +1,11 @@
-# Used by platform administrators to make an index file listing all experiments
+#' Used by platform administrators to make an index file listing all experiments
+#'
+#' This function builds an index which lists the available experimental file.
+#' It is useful to build indices when outing data on a remote server (e.g. FTP).
+#' @return the path to the index file written (in `result_dir`))
 #' @inheritParams list_result_files
 #' @export
-make_index_file <- function(result_dir, name="index.txt"){
+make_index_file <- function(result_dir, index_file="index.txt"){
   files <- list_result_files(result_dir)
   out <- files[, .(last_point = last_point_db(path)), by=c(key(files), "machine_id", "datetime", "file")]
   out[,
@@ -12,7 +16,7 @@ make_index_file <- function(result_dir, name="index.txt"){
       ]
   out <- out[, .(path, last_point)]
 
-  out_file <- paste(result_dir, name, sep="/")
+  out_file <- paste(result_dir, index_file, sep="/")
   write.table(out,
               out_file,
               sep=",",
