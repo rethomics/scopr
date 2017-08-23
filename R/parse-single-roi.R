@@ -67,10 +67,15 @@ parse_single_roi <- function(data,
 
   if(!is.null(FUN)){
     out <- FUN(out,...)
-    if(is.null(out)){
+
+    is_empty <- is.null(out)
+    if(!is_empty)
+      is_empty <- nrow(out) == 0
+    if(is_empty){
       warning(sprintf("No data in ROI %i after running FUN, from FILE %s. Skipping",region_id, path))
       return(NULL)
     }
+
   }
   out
 }
