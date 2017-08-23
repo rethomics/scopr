@@ -90,8 +90,6 @@ query_ethoscopes <- function( query,
                    columns=columns,
                    cache=cache,
                    FUN,...)
-    # if any element of the list is `NULL`, then it is removed
-    l_dt <- l_dt[!sapply(l_dt,is.null)]
     dt <- behavr::bind_behavr_list(l_dt)
     dt
   }
@@ -110,7 +108,6 @@ query_ethoscopes <- function( query,
     l_dt <- parallel::mclapply(q_l, load_fun, mc.cores=ncores)
   }
 
-  l_dt <- l_dt[!sapply(l_dt,is.null)]
   dt <- behavr::bind_behavr_list(l_dt)
   rm(l_dt)
   # we can force R to garbage collect, making memory avalable:
