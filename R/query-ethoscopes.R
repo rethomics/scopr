@@ -82,7 +82,7 @@ query_ethoscopes <- function( query,
     # So, l_dt is a list of data tables, one per ROI. If no data is availeble, the list element is `NULL`.
 
     l_rows <- lapply(1:nrow(q),function(i){q[i,]})
-    l_dt <- lapply(l_rows,parse_single_roi,
+    l_dt <- lapply(l_rows, parse_single_roi,
                    min_time = min_time,
                    max_time = max_time,
                    reference_hour = reference_hour,

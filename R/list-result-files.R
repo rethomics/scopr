@@ -23,7 +23,7 @@ list_result_files <- function(result_dir, index_file=NULL){
 
   if(!is.null(index_file)){
     index_file <- paste(result_dir, index_file, sep="/")
-    tryCatch({dt_all_files  <- data.table::fread(index_file, header=F)},
+    tryCatch({dt_all_files  <- data.table::fread(index_file, header = FALSE, verbose = FALSE)},
              error = function(e) stop(sprintf("Could not find index file: %s",
                                          index_file)))
 

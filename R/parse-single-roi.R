@@ -1,3 +1,7 @@
+
+# for memoisation
+
+
 # we obtain data from one ROI and optionaly preanalyse it, by applying FUN.
 parse_single_roi <- function(data,
                         min_time = 0,
@@ -19,27 +23,51 @@ parse_single_roi <- function(data,
   if(tools::file_ext(path) != "db")
     stop(sprintf("Unsuported file extention in %s",path))
 
-  # for memoisation
+  fs = file.info(path)["size"]
+
+
   if(!is.null(cache)){
-    time_stamp = file.info(path)["mtime"]
     db <- memoise::cache_filesystem(cache, algo="md5")
-    read_single_roi_memo <- memoise::memoise(read_single_roi, cache=db)
+    parse_single_roi_wrapped_memo <- memoise::memoise(parse_single_roi_wrapped, cache=db)
   }
 
   else{
-    time_stamp = NULL
-    read_single_roi_memo <- read_single_roi
+    parse_single_roi_wrapped_memo <- parse_single_roi_wrapped
   }
 
 
-  out <- read_single_roi_memo(path,
+  parse_single_roi_wrapped_memo( data,
+                                 min_time,
+                                 max_time,
+                                 reference_hour,
+                                 columns,
+                                 file_size= fs,
+                                 FUN,
+                                 ...
+                                 )
+      }
+
+parse_single_roi_wrapped <- function(data,
+                                     min_time = 0,
+                                     max_time = +Inf,
+                                     reference_hour = NULL,
+                                     columns = NULL,
+                                     file_size=0,
+                                     FUN = NULL,
+                                     ...
+                                     ){
+  region_id <- data$region_id
+  experiment_id <- data$experiment_id
+  path <- data$path
+
+
+  out <- read_single_roi(path,
                          region_id=region_id,
                          min_time = min_time,
                          max_time = max_time,
                          reference_hour = reference_hour,
                          columns=columns,
                          time_stamp = time_stamp)
-
 
   if(is.null(out) || nrow(out) == 0){
     warning(sprintf("No data in ROI %i, from FILE %s. Skipping",region_id, path))
@@ -62,8 +90,8 @@ parse_single_roi <- function(data,
   meta[, path:=NULL]
   data.table::setnames(meta, "path_list", "path")
   data.table::setkeyv(meta, "id")
-
-  out <- behavr::behavr(out, meta)
+  # todo setbehavr here
+  behavr::setbehavr(out, meta)
 
   if(!is.null(FUN)){
     out <- FUN(out,...)

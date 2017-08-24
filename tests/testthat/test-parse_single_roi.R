@@ -20,6 +20,10 @@ test_that("parse_single_roi works with memosiation", {
   b <- scopr:::parse_single_roi(data, cache = cache)
   c <- scopr:::parse_single_roi(data, cache = cache)
 
-  expect_identical(a,b)
-  expect_identical(b,c)
+  ?identical(b, c,ignore.bytecode = T)
+
+
+
+  expect_identical(a, b)
+  expect_true(all(c == b) & identical(c[meta=T], b[meta=T]))
 })
