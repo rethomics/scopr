@@ -80,8 +80,15 @@ mirror_ethoscope_results <- function(remote,
 
 
 download_create_dir <-function(src,dst){
-  dir.create(dirname(dst), recursive=T, showWarnings = FALSE)
-  download.file(src,dst, mode="wb", method="libcurl",quiet = TRUE)
+  tmp <- tempfile()
+  tryCatch({
+    download.file(src,tmp, mode="wb", method="libcurl",quiet = TRUE)
+    dir.create(dirname(dst), recursive=T, showWarnings = FALSE)
+    file.copy(tmp, dst)
+    },
+    finally = {unlink(tmp)}
+    )
+
 }
 
 
