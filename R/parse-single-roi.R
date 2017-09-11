@@ -17,6 +17,14 @@ parse_single_roi <- function(data,
   experiment_id <- data$experiment_id
   path <- data$path
 
+  # we get the columns to get from the method used itself
+  if(is.null(columns) & !is.null(FUN)){
+    needed_columns <- attr(FUN, "needed_columns")
+    if(!is.null(needed_columns))
+      columns <- needed_columns(...)
+  }
+
+
   if(verbose)
     cat(sprintf("Loading ROI number %i from:\n\t%s\n",region_id,path))
 
@@ -46,6 +54,8 @@ parse_single_roi <- function(data,
                                  ...
                                  )
 }
+
+
 
 parse_single_roi_wrapped <- function(data,
                                      min_time = 0,
