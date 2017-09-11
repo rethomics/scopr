@@ -3,6 +3,7 @@ context("list_result_files")
 test_that("list_result_files works", {
   dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
   out <- scopr:::list_result_files(dir)
+
   expect_equal(nrow(out), 4)
 })
 

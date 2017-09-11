@@ -55,6 +55,7 @@ list_result_files <- function(result_dir, index_file=NULL){
   files_info <- do.call("rbind",fields)
   files_info <- data.table::as.data.table(files_info)
   data.table::setnames(files_info, c("machine_id", "machine_name", "datetime","file"))
+  files_info[, file := NULL]
   parse_datetime <- function(x){
     match <- stringr::str_split(x, "_", simplify=TRUE)
     d <- parse_date(match[,1])

@@ -45,7 +45,7 @@ parse_single_roi <- function(data,
                                  FUN,
                                  ...
                                  )
-      }
+}
 
 parse_single_roi_wrapped <- function(data,
                                      min_time = 0,

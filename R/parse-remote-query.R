@@ -27,7 +27,7 @@ parse_remote_query <- function(x,
                                       result_dir = remote_dir,
                                       index_file = index_file)
   }
-
+  remote_query[, file := basename(path)]
   remote_query[,
                dst_path := paste(result_dir,
                                  machine_id,

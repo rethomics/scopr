@@ -91,6 +91,7 @@ query_ethoscopes <- function( query,
                    cache=cache,
                    FUN,...)
     dt <- behavr::bind_behavr_list(l_dt)
+    dt[, experiment_id := NULL, meta = TRUE]
     dt
   }
 

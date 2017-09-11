@@ -14,7 +14,6 @@ test_that("parse_query with single file", {
 
 
 test_that("parse_query with date and machine name", {
-
   dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
   query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
                       date = c("2016-01-25", "2016-02-17","2016-01-25"),
@@ -23,7 +22,7 @@ test_that("parse_query with date and machine name", {
    #                   lifespan=c(10,12, NA)
   )
   out <- scopr:::parse_query(query, dir)
-
+out[, -"experiment_id"]
   #no_region_id_query <- as.data.frame(out)
   #devtools::use_data(no_region_id_query)
   expect_equal(nrow(out), 60)
