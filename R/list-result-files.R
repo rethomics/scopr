@@ -15,7 +15,6 @@
 #' }
 #' @seealso
 #' * [load_ethoscope] -- to load the actual data
-#' * [link_ethoscope_metadata] -- to generate a query
 #' * [experiment_info] -- to show the metadata of a specific experiment
 #' @export
 list_result_files <- function(result_dir, index_file=NULL){
