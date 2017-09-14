@@ -1,4 +1,4 @@
-context("query_ethoscopes")
+context("load_ethoscope")
 
 test_that("query ethoscopes works", {
   dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
@@ -7,9 +7,8 @@ test_that("query ethoscopes works", {
                       time = c("21:46:14", NA, NA),
                       test=c(1,2,3)
                       )
-  query <- parse_query(query,dir)
-  dt <- query_ethoscopes(query, verbose=F)
-  dt
+  query <- link_ethoscope_metadata(query,dir)
+  dt <- load_ethoscope(query, verbose=F)
   expect_equal(nrow(dt[meta=TRUE]), 60)
 })
 
@@ -21,8 +20,8 @@ test_that("query ethoscopes works with multiple cores", {
                       time = c("21:46:14", NA, NA),
                       test=c(1,2,3)
   )
-  query <- parse_query(query, dir)
-  dt <- query_ethoscopes(query, verbose=F)
-  dt_m <- query_ethoscopes(query, ncores=2, verbose=F)
+  query <- link_ethoscope_metadata(query, dir)
+  dt <- load_ethoscope(query, verbose=F)
+  dt_m <- load_ethoscope(query, ncores=2, verbose=F)
   expect_identical(dt_m, dt)
 })

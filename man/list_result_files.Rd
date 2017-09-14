@@ -27,8 +27,8 @@ todo
 }
 \seealso{
 \itemize{
-\item \link{query_ethoscopes} -- to load the actual data
-\item \link{parse_query} -- to generate a query
-\item \link{read_metadata} -- to show the metadata of a specific experiment
+\item \link{load_ethoscope} -- to load the actual data
+\item \link{link_ethoscope_metadata} -- to generate a query
+\item \link{experiment_info} -- to show the metadata of a specific experiment
 }
 }

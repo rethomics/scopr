@@ -4,7 +4,7 @@
 #' It is useful to build indices when outing data on a remote server (e.g. FTP).
 #' @return the path to the index file written (in `result_dir`))
 #' @inheritParams list_result_files
-#' @export
+#' @noRd
 make_index_file <- function(result_dir, index_file="index.txt"){
   files <- list_result_files(result_dir)
   files[, file := basename(path)]

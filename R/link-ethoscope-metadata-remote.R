@@ -1,15 +1,16 @@
-#' @rdname parse_query
+#' @rdname link_ethoscope_metadata
 #' @param remote_dir the url of the result directory on the data server
 #' @param overwrite_local whether to download all files.
 #' The default, `FALSE`, is to only fetch files if they are newer on the remote.
-#' @inheritParams query_ethoscopes
+#' @inheritParams link_ethoscope_metadata
+#' @inheritParams load_ethoscope
 #' @export
-parse_remote_query <- function(x,
-                                remote_dir,
-                                result_dir,
-                                index_file="index.txt",
-                                overwrite_local=FALSE,
-                                verbose=TRUE){
+link_ethoscope_metadata_remote <- function(x,
+                                           remote_dir,
+                                           result_dir,
+                                           index_file="index.txt",
+                                           overwrite_local=FALSE,
+                                           verbose=TRUE){
 
   query <- x
   # if query is a readable csv file, we parse it
@@ -35,7 +36,10 @@ parse_remote_query <- function(x,
                                  format(datetime,"%Y-%m-%d_%H-%M-%S"),
                                  file,sep="/")
                ]
-  last_points  <- data.table::fread(paste(remote_dir, index_file, sep="/"), header=F)
+  last_points  <- data.table::fread(paste(remote_dir, index_file, sep="/"),
+                                    header=F,
+                                    verbose = verbose,
+                                    showProgress = verbose)
   if(!"V2" %in% names(last_points)){
     warning("No time stamp on remote index. All the files will be downloaded each time!")
     last_points[, V2:=+Inf]
@@ -55,7 +59,7 @@ parse_remote_query <- function(x,
                                           verbose=verbose) ,
                by=id]
   remote_query[, file_size__:=NULL]
-  parse_query(query, result_dir = result_dir)
+  link_ethoscope_metadata(query, result_dir = result_dir)
 }
 
 
@@ -107,19 +111,3 @@ is_remote_newer <- function(local, remote_size){
 file_size <- function(FILE){
   as.numeric(file.info(FILE)["size"])
 }
-# last_point_db <- function(FILE){
-#   max_t <- NA_integer_
-#   tryCatch({
-#     con = NULL
-#     rois <- list_all_rois(FILE)
-#     con <- RSQLite::dbConnect(RSQLite::SQLite(), FILE, flags=RSQLite::SQLITE_RO)
-#     max_t <- max(sapply( rois, function(x){
-#       command <- sprintf("SELECT t FROM ROI_%i ORDER BY id DESC LIMIT 1", x)
-#       as.integer(RSQLite::dbGetQuery(con, command)$t)
-#     }))
-#   }, error = function(e){},
-#   finally = {if(!is.null(con)) RSQLite::dbDisconnect(con)})
-#   max_t
-# }
-#
-#

@@ -1,7 +1,4 @@
-
 # for memoisation
-
-
 # we obtain data from one ROI and optionaly preanalyse it, by applying FUN.
 parse_single_roi <- function(data,
                         min_time = 0,
@@ -14,8 +11,8 @@ parse_single_roi <- function(data,
                         ...){
 
   region_id <- data$region_id
-  experiment_id <- data$experiment_id
-  path <- data$path
+  path <- data$file_info[[1]]$path
+
 
   # we get the columns to get from the method used itself
   if(is.null(columns) & !is.null(FUN)){
@@ -23,26 +20,20 @@ parse_single_roi <- function(data,
     if(!is.null(needed_columns))
       columns <- needed_columns(...)
   }
-
-
   if(verbose)
     cat(sprintf("Loading ROI number %i from:\n\t%s\n",region_id,path))
-
   if(tools::file_ext(path) != "db")
     stop(sprintf("Unsuported file extention in %s",path))
 
   fs = file.info(path)["size"]
 
-
   if(!is.null(cache)){
     db <- memoise::cache_filesystem(cache, algo="md5")
     parse_single_roi_wrapped_memo <- memoise::memoise(parse_single_roi_wrapped, cache=db)
   }
-
   else{
     parse_single_roi_wrapped_memo <- parse_single_roi_wrapped
   }
-
 
   parse_single_roi_wrapped_memo( data,
                                  min_time,
@@ -67,9 +58,8 @@ parse_single_roi_wrapped <- function(data,
                                      ...
                                      ){
   region_id <- data$region_id
-  experiment_id <- data$experiment_id
-  path <- data$path
-
+  id <- data$id
+  path <- data$file_info[[1]]$path
 
   out <- read_single_roi(path,
                          region_id=region_id,
@@ -85,23 +75,14 @@ parse_single_roi_wrapped <- function(data,
   }
 
 
-  id <- as.factor(sprintf("%02d|%s",region_id,experiment_id))
+  #id <- as.factor(sprintf("%02d|%s",region_id,experiment_id))
 
   old_cols <- data.table::copy(names(out))
   out[,id := id]
   data.table::setcolorder(out,c("id", old_cols))
   data.table::setkeyv(out, "id")
 
-  meta <- data.table::as.data.table(data)
-  meta <- cbind(id=id,meta)
-  meta[, path_list := lapply(path, function(x){
-    list(list(file=basename(x),path=x))
-    })]
-  meta[, path:=NULL]
-  data.table::setnames(meta, "path_list", "path")
-  data.table::setkeyv(meta, "id")
-  # todo setbehavr here
-  behavr::setbehavr(out, meta)
+  behavr::setbehavr(out, data)
 
   if(!is.null(FUN)){
     out <- FUN(out,...)

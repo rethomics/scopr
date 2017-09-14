@@ -21,50 +21,50 @@ install_github("rethomics/scopr")
 ```
 
 
-## Ethoscope results
+<!-- ## Ethoscope results -->
 
-Since ethoscopes is designed for high-throughput experiments, it is likely that you will run many machines with several animals in each. You will also run both concurrent and successive experiments.
-You may also have to put together data acquiered in several labs.
-In this context, it is crucial to be able to retreive each experiment unambiguisly.
-Ethoscopes solves this problem by organising files in a canonical directory structure (see the [ethoscope user manual](https://qgeissmann.gitbooks.io/ethoscope-manual/content/administration-and-maintenance/backing-up-data.html)). 
-`scopr` offers a transparent way, based on a **query system**, for users load their data without this underlying structure. This means each animal can be associeated with arbitrary metavariables and loaded for subsequent analysis.
+<!-- Since ethoscopes is designed for high-throughput experiments, it is likely that you will run many machines with several animals in each. You will also run both concurrent and successive experiments. -->
+<!-- You may also have to put together data acquiered in several labs. -->
+<!-- In this context, it is crucial to be able to retreive each experiment unambiguisly. -->
+<!-- Ethoscopes solves this problem by organising files in a canonical directory structure (see the [ethoscope user manual](https://qgeissmann.gitbooks.io/ethoscope-manual/content/administration-and-maintenance/backing-up-data.html)).  -->
+<!-- `scopr` offers a transparent way, based on a **query system**, for users load their data without this underlying structure. This means each animal can be associeated with arbitrary metavariables and loaded for subsequent analysis. -->
 
-## Let's build a query
+<!-- ## Let's build a query -->
 
-TODO
+<!-- TODO -->
 
-## Using the query to load the data
+<!-- ## Using the query to load the data -->
 
-TODO
+<!-- TODO -->
 
-### The raw data
+<!-- ### The raw data -->
 
-TODO
+<!-- TODO -->
 
-### Align to circadian time
+<!-- ### Align to circadian time -->
 
-TODO
+<!-- TODO -->
 
-### Analyse data upon loading
+<!-- ### Analyse data upon loading -->
 
-TODO
+<!-- TODO -->
 
-## Listing available files
+<!-- ## Listing available files -->
 
-TODO
+<!-- TODO -->
 
-## Metadata
+<!-- ## Metadata -->
 
-TODO
+<!-- TODO -->
 
-## Going further
+<!-- ## Going further -->
 
 
-## Going further
+<!-- ## Going further -->
 
-* [behavr](https://github.com/rethomics/behavr) -- to manipulate the data (create new variable/meta-variables)
-<!-- * [damr](https://github.com/rethomics/damr) -- to load data from the DAM2 system -->
-<!-- * [scopr](https://github.com/rethomics/scopr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system -->
-* [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data
-* [sleepr](https://github.com/rethomics/sleepr) -- to perform sleep and circadian rythm analysis
+<!-- * [behavr](https://github.com/rethomics/behavr) -- to manipulate the data (create new variable/meta-variables) -->
+<!-- <!-- * [damr](https://github.com/rethomics/damr) -- to load data from the DAM2 system --> -->
+<!-- <!-- * [scopr](https://github.com/rethomics/scopr) -- to load data from the [ethoscope](http://gilestrolab.github.io/ethoscope/) system --> -->
+<!-- * [ggetho](https://github.com/rethomics/ggetho) -- to plot visualise the data -->
+<!-- * [sleepr](https://github.com/rethomics/sleepr) -- to perform sleep and circadian rythm analysis -->
 

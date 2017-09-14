@@ -14,16 +14,19 @@
 #' todo
 #' }
 #' @seealso
-#' * [query_ethoscopes] -- to load the actual data
-#' * [parse_query] -- to generate a query
-#' * [read_metadata] -- to show the metadata of a specific experiment
+#' * [load_ethoscope] -- to load the actual data
+#' * [link_ethoscope_metadata] -- to generate a query
+#' * [experiment_info] -- to show the metadata of a specific experiment
 #' @export
 list_result_files <- function(result_dir, index_file=NULL){
   key <- c("date", "time","machine_name")
 
   if(!is.null(index_file)){
     index_file <- paste(result_dir, index_file, sep="/")
-    tryCatch({dt_all_files  <- data.table::fread(index_file, header = FALSE, verbose = FALSE)},
+    tryCatch({dt_all_files  <- data.table::fread(index_file,
+                                                 header = FALSE,
+                                                 verbose = FALSE,
+                                                 showProgress = FALSE)},
              error = function(e) stop(sprintf("Could not find index file: %s",
                                          index_file)))
 

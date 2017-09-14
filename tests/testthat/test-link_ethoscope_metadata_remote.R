@@ -1,5 +1,6 @@
-test_that("parse_remote_query with date and machine name", {
+context("link_ethoscope_metadata_remote")
 
+test_that("link_ethoscope_metadata_remote with date and machine name", {
   remote_dir <-"https://raw.githubusercontent.com/rethomics/scopr/master/inst/extdata/ethoscope_results"
   dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
   query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
@@ -9,24 +10,23 @@ test_that("parse_remote_query with date and machine name", {
                       #                   lifespan=c(10,12, NA)
   )
   result_dir <- tempdir()
-  out1 <- scopr:::parse_remote_query(query,
+
+  out1 <- scopr:::link_ethoscope_metadata_remote(query,
                                      remote_dir = remote_dir,
                                      result_dir = result_dir,
-                                     overwrite_local = TRUE)
-
-  out2 <- scopr:::parse_query(query,
+                                     overwrite_local = TRUE,
+                                     verbose=F)
+?data.table::fread
+  out2 <- scopr:::link_ethoscope_metadata(query,
                               dir)
 
-  dt1 <- query_ethoscopes(out1)
-  dt2 <- query_ethoscopes(out2)
+  dt1 <- load_ethoscope(out1, verbose=F)
+  dt2 <- load_ethoscope(out2, verbose=F)
 
-  dt2[,path:=NULL, meta=T]
-  dt1[,path:=NULL, meta=T]
-
+  dt2[,file_info := NULL, meta = T]
+  dt1[,file_info := NULL, meta = T]
   expect_identical(dt2, dt1)
 })
-
-
 
 
 
@@ -48,25 +48,24 @@ test_that("parse_query with date, machine name, and ROIs", {
   query[, treatment := 1:3]
 
   result_dir <- tempdir()
-  out1 <- scopr:::parse_remote_query(query,
+  out1 <- scopr:::link_ethoscope_metadata_remote(query,
                                      remote_dir = remote_dir,
                                      result_dir = result_dir,
-                                     overwrite_local = TRUE)
+                                     overwrite_local = TRUE,
+                                     verbose=F)
 
 
 
-  out2 <- scopr:::parse_query(query,
+  out2 <- scopr:::link_ethoscope_metadata(query,
                               dir)
 
-  dt1 <- query_ethoscopes(out1)
-  dt2 <- query_ethoscopes(out2)
+  dt1 <- load_ethoscope(out1, verbose=F)
+  dt2 <- load_ethoscope(out2, verbose=F)
 
-
-  dt2[,path:=NULL, meta=T]
-  dt1[,path:=NULL, meta=T]
+  dt2[,file_info := NULL, meta = T]
+  dt1[,file_info := NULL, meta = T]
 
   expect_identical(dt2, dt1)
 })
-
 
 

@@ -7,8 +7,7 @@ read_single_roi <- function( FILE,
                              columns = NULL,
                              time_stamp=NULL # only used for memoisation
                              ){
-
-  metadata <- read_metadata(FILE)
+  experiment_info <- experiment_info(FILE)
 
   if(min_time >= max_time)
     stop("min_time can only be lower than max_time!")
@@ -58,7 +57,7 @@ read_single_roi <- function( FILE,
       roi_dt[, id := NULL]
 
     if(!is.null(reference_hour)){
-      p <- metadata$date_time
+      p <- experiment_info$date_time
       hour_start <- as.numeric(format(p, "%H")) +
                     as.numeric(format(p, "%M")) / 60 +
                     as.numeric(format(p, "%S")) / 3600
