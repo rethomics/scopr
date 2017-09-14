@@ -13,11 +13,11 @@ r:
 
 r_github_packages:
    - rethomics/behavr
+   - hadley/testthat
 
 r_packages:
   - covr
   - knitr
-  - testthat
 
 after_success:
   - Rscript -e 'covr::codecov()'
