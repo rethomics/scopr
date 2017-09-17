@@ -9,7 +9,7 @@ parse_single_roi <- function(data,
                         cache=NULL,
                         FUN = NULL,
                         ...){
-
+  id <- data$id
   region_id <- data$region_id
   path <- data$file_info[[1]]$path
 
@@ -35,7 +35,9 @@ parse_single_roi <- function(data,
     parse_single_roi_wrapped_memo <- parse_single_roi_wrapped
   }
 
-  parse_single_roi_wrapped_memo( data,
+  out <- parse_single_roi_wrapped_memo( id,
+                                 region_id,
+                                 path,
                                  min_time,
                                  max_time,
                                  reference_hour,
@@ -44,11 +46,13 @@ parse_single_roi <- function(data,
                                  FUN,
                                  ...
                                  )
+  behavr::setbehavr(out, data)
+  out
 }
 
 
 
-parse_single_roi_wrapped <- function(data,
+parse_single_roi_wrapped <- function(id, region_id,path,
                                      min_time = 0,
                                      max_time = +Inf,
                                      reference_hour = NULL,
@@ -57,10 +61,6 @@ parse_single_roi_wrapped <- function(data,
                                      FUN = NULL,
                                      ...
                                      ){
-  region_id <- data$region_id
-  id <- data$id
-  path <- data$file_info[[1]]$path
-
   out <- read_single_roi(path,
                          region_id=region_id,
                          min_time = min_time,
@@ -81,8 +81,8 @@ parse_single_roi_wrapped <- function(data,
   out[,id := id]
   data.table::setcolorder(out,c("id", old_cols))
   data.table::setkeyv(out, "id")
-
-  behavr::setbehavr(out, data)
+  met <- data.table(id = id, key="id")
+  behavr::setbehavr(out, met)
 
   if(!is.null(FUN)){
     out <- FUN(out,...)
