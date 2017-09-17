@@ -46,7 +46,8 @@ parse_single_roi <- function(data,
                                  FUN,
                                  ...
                                  )
-  behavr::setbehavr(out, data)
+  if(!is.null(out))
+    behavr::setbehavr(out, data)
   out
 }
 
