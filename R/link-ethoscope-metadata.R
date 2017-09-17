@@ -105,7 +105,9 @@ link_ethoscope_metadata <- function(x, result_dir=NULL, index_file=NULL){
 
   }
 
-  out[, id := as.factor(sprintf("%02d|%s",region_id,experiment_id))]
+  #out[, id := as.factor(sprintf("%02d|%s",region_id,experiment_id))]
+  out[, id := as.factor(sprintf("%s|%02d",substr(experiment_id,1,26), region_id))]
+
   file_info <- out[,.(file_info =  list(list(path = path, file = basename(path)))), by="id"]
   out <- file_info[out, on="id"]
   out[, path := NULL]

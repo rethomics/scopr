@@ -28,7 +28,6 @@ todo
 \seealso{
 \itemize{
 \item \link{load_ethoscope} -- to load the actual data
-\item \link{link_ethoscope_metadata} -- to generate a query
 \item \link{experiment_info} -- to show the metadata of a specific experiment
 }
 }

@@ -6,7 +6,7 @@ test_that("parse_single_roi works in normal conditions", {
   data <- data.table::data.table(id="xxx", region_id=1, file_info=list(list(path=test_file)), key="id")
 
   a <- scopr:::parse_single_roi(data, verbose = F)
-  a <- scopr:::parse_single_roi(data, FUN= function(x){behavr::bin_apply_all(x,y = x)}, verbose = F)
+  a <- scopr:::parse_single_roi(data, FUN= function(d){behavr::bin_apply_all(d,y = x)}, verbose = F)
   a[meta=T]
 })
 
@@ -32,15 +32,18 @@ test_that("parse_single_roi works with autocolumn finding", {
   test_file <- paste(dir, "ethoscope_results/029/E_029/2016-01-25_21-14-55/2016-01-25_21-14-55_029.db",sep="/")
   data <- data.table::data.table(id="xxx", region_id=1, file_info=list(list(path=test_file)), key="id")
 
-  foo <- function(x){behavr::bin_apply_all(x,y = x)}
+  foo <- function(d){behavr::bin_apply_all(d,y = x)}
   attr(foo, "needed_columns") <- function(){
     "x"
   }
+  foo
   a <- scopr:::parse_single_roi(data, FUN= foo, verbose = F)
   a[meta=T]
+
   attr(foo, "needed_columns") <- function(...){
-    "w"
+    "www"
   }
+
   expect_error(scopr:::parse_single_roi(data, FUN= foo, verbose=F))
 
 })

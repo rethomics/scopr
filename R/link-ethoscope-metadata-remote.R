@@ -21,13 +21,11 @@ link_ethoscope_metadata_remote <- function(x,
   if(!"path"  %in% colnames(query)){
     check_columns(c("machine_name", "date"), query)
 
-
-
-
-  remote_query <- build_query(query,
-                                      result_dir = remote_dir,
-                                      index_file = index_file)
+    remote_query <- build_query(result_dir = remote_dir,
+                              query = query,
+                              index_file = index_file)
   }
+
   remote_query[, file := basename(path)]
   remote_query[,
                dst_path := paste(result_dir,
@@ -38,7 +36,7 @@ link_ethoscope_metadata_remote <- function(x,
                ]
   last_points  <- data.table::fread(paste(remote_dir, index_file, sep="/"),
                                     header=F,
-                                    verbose = verbose,
+                                    verbose = FALSE,
                                     showProgress = verbose)
   if(!"V2" %in% names(last_points)){
     warning("No time stamp on remote index. All the files will be downloaded each time!")
@@ -52,6 +50,7 @@ link_ethoscope_metadata_remote <- function(x,
 
   remote_query <- unique(remote_query, by="path")
   remote_query[, id := 1:nrow(remote_query)]
+
   remote_query[, mirror_ethoscope_results(path,
                                           dst_path,
                                           overwrite_local = overwrite_local,

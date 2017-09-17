@@ -1,4 +1,3 @@
-#' @importFrom data.table ":="
-#' @importFrom data.table "key"
 #' @import behavr
+#' @importFrom data.table ":="
 NULL
