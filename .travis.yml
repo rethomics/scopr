@@ -13,6 +13,7 @@ r:
 
 r_github_packages:
    - rethomics/behavr
+   - hadley/testthat
 
 r_packages:
   - covr
