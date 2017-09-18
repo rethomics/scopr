@@ -16,7 +16,10 @@ Imports:
   stringr,
   RSQLite,
   memoise
-Suggests: testthat
+Suggests: 
+    testthat,
+    covr,
+    knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
