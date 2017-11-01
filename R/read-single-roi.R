@@ -80,12 +80,19 @@ read_single_roi <- function( FILE,
         roi_dt[, (var_n) := as.logical(get(var_n))]
       }
     }
-    if("is_inferred" %in% colnames(roi_dt))
-      roi_dt <- roi_dt[is_inferred==F]
 
-    roi_dt[, is_inferred := NULL]
+
+    if(all(c("is_inferred", "has_interacted") %in% colnames(roi_dt))){
+      # we keep infered cols if interaction happened!
+      roi_dt <- roi_dt[is_inferred==F | has_interacted == T]
+    }
+    else if("is_inferred" %in% colnames(roi_dt))
+      roi_dt <- roi_dt[is_inferred==F]
+        roi_dt[, is_inferred := NULL]
     return(roi_dt)
   },
   finally= {RSQLite::dbDisconnect(con)}
   )
 }
+
+
