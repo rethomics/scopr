@@ -3,11 +3,7 @@ context("link_ethoscope_metadata")
 test_that("link_ethoscope_metadata with single file", {
   dir <- scopr_example_dir()
   test_file <- paste(dir, "ethoscope_results/029/E_029/2016-01-25_21-14-55/2016-01-25_21-14-55_029.db",sep="/")
-  print("unittest testfile")
-  print(test_file)
-  print(class(test_file))
-  out <- scopr::link_ethoscope_metadata(test_file)
-
+  out <- link_ethoscope_metadata(test_file)
   expect_equal(nrow(out), 20)
   expect_equal(unique(sapply(out$file_info, function(x) x$path)), test_file)
   expect_equal(sort(out$region_id), 1:20)
@@ -25,7 +21,7 @@ test_that("link_ethoscope_metadata with date and machine name", {
                       test=c(1,2,3)
    #                   lifespan=c(10,12, NA)
   )
-  out <- scopr:::link_ethoscope_metadata(query, dir)
+  out <-  link_ethoscope_metadata(query, dir)
   expect_equal(nrow(out), 60)
 })
 
@@ -47,7 +43,7 @@ test_that("link_ethoscope_metadata with date, machine name, and ROIs", {
   query <- query[,.(region_id=1:5),by=c(colnames(query))]
   query[, treatment := 1:3]
 
-  out <- scopr:::link_ethoscope_metadata(query, dir)
+  out <-  link_ethoscope_metadata(query, dir)
   expect_equal(nrow(out), 3*5)
 })
 
@@ -60,7 +56,7 @@ test_that("link_ethoscope_metadata with path", {
                       region_id=1:3)
 
 
-  out <- scopr:::link_ethoscope_metadata(query, dir)
+  out <- link_ethoscope_metadata(query, dir)
   expect_equal(nrow(out), 3)
   expect_equal(unique(sapply(out$file_info, function(x) x$path)), test_file)
   expect_equal(sort(out$region_id), 1:3)

@@ -51,7 +51,12 @@ link_ethoscope_metadata <- function(x, result_dir=NULL, index_file=NULL){
   query <- x
   # if query is a readable csv file, we parse it
   if(is.character(query) & length(query) == 1)
-    tryCatch( query <- data.table::fread(query), error=function(e){})
+    tryCatch( {q <- data.table::fread(query)
+              if(ncol(q) < 2) stop("Invalid query. Not a csv?")
+              query <- q},
+              warnings=function(w){},
+              error=function(e){}
+              )
 
   # case 1 query is a file, or a vector of files
   if(is.character(query)){
