@@ -3,6 +3,9 @@ context("link_ethoscope_metadata")
 test_that("link_ethoscope_metadata with single file", {
   dir <- scopr_example_dir()
   test_file <- paste(dir, "ethoscope_results/029/E_029/2016-01-25_21-14-55/2016-01-25_21-14-55_029.db",sep="/")
+  print("unittest testfile")
+  print(test_file)
+  print(class(test_file))
   out <- scopr::link_ethoscope_metadata(test_file)
 
   expect_equal(nrow(out), 20)
