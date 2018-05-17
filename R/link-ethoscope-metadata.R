@@ -13,12 +13,13 @@
 #' The provided [data.table] has typically one row per requested individual and the columns
 #' (not necessarily in this order):
 #'     * `machine_name` -- the name of the machine in which the individual was (e.g. `"ETHOSCOPE_001"`)
-#'     * `date` -- the start date of the experiment formated as `"YYYY-MM-DD"`
+#'     * `date` -- the start date of the experiment formatted as `"YYYY-MM-DD"`
 #'     * `region_id` -- the ROI in which the animal was. When *not provided, all regions are queried*.
-#'     * `time` -- the start time of the experiment formated as "HH:MM:SS".
-#'        When *not provided*, and multiple expriment for the same machine exist, *only the last one is loaded*.
+#'     * `time` -- the start time of the experiment formatted as "HH:MM:SS".
+#'        When *not provided*, and multiple experiment for the same machine exist, *only the last one is loaded*.
 #'     * `???` -- any number of arbitrary columns* to associate `conditions`/`treatments`/`genotypes`/... to the previous columns.
 #' 2. The name of a CSV file that contains a table as described in `1`.
+#' 3. A vector of `.db` files to be read.
 #' @examples
 #' # Metadata with no region_id -> all regions will be loaded with the same metadata
 #' dir <- paste0(scopr_example_dir(), "/ethoscope_results/")

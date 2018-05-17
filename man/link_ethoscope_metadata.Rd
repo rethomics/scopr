@@ -40,13 +40,14 @@ The provided \link{data.table} has typically one row per requested individual an
 (not necessarily in this order):
 \itemize{
 \item \code{machine_name} -- the name of the machine in which the individual was (e.g. \code{"ETHOSCOPE_001"})
-\item \code{date} -- the start date of the experiment formated as \code{"YYYY-MM-DD"}
+\item \code{date} -- the start date of the experiment formatted as \code{"YYYY-MM-DD"}
 \item \code{region_id} -- the ROI in which the animal was. When \emph{not provided, all regions are queried}.
-\item \code{time} -- the start time of the experiment formated as "HH:MM:SS".
-When \emph{not provided}, and multiple expriment for the same machine exist, \emph{only the last one is loaded}.
+\item \code{time} -- the start time of the experiment formatted as "HH:MM:SS".
+When \emph{not provided}, and multiple experiment for the same machine exist, \emph{only the last one is loaded}.
 \item \code{???} -- any number of arbitrary columns* to associate \code{conditions}/\code{treatments}/\code{genotypes}/... to the previous columns.
 }
 \item The name of a CSV file that contains a table as described in \code{1}.
+\item A vector of \code{.db} files to be read.
 }
 }
 \examples{

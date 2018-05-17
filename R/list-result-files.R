@@ -6,7 +6,7 @@
 #' @param result_dir the root directory where all data are saved, or the path to a remote directory.
 #' @param index_file the name of an index_file, in `result_dir` (needed for loading remote data).
 #' @return a [data.table::data.table].
-#' Each row is a single experimental file, and columns describe details such as: its `path`, start `date` and `time`,
+#' Each row is a single experimental file, and columns describe details such as its `path`, start `date` and `time`,
 #' and the name and id of the ethoscope used.
 #' @seealso
 #' * [load_ethoscope] -- to load the actual data

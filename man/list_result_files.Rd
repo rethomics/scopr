@@ -13,7 +13,7 @@ list_result_files(result_dir, index_file = NULL)
 }
 \value{
 a \link[data.table:data.table]{data.table::data.table}.
-Each row is a single experimental file, and columns describe details such as: its \code{path}, start \code{date} and \code{time},
+Each row is a single experimental file, and columns describe details such as its \code{path}, start \code{date} and \code{time},
 and the name and id of the ethoscope used.
 }
 \description{
