@@ -6,10 +6,16 @@
 #' @inheritParams list_result_files
 #' @noRd
 make_index_file <- function(result_dir, index_file="index.txt"){
+
+  path = dst_path = machine_id = machine_name = datetime = V2 = id = file_size__ =NULL
+
+  path = . = machine_id = machine_name = datetime = last_point = write.table = NULL
+
+
   files <- list_result_files(result_dir)
   files[, file := basename(path)]
 
-  out <- files[, .(last_point = file_size(path)), by=c(key(files), "machine_id", "datetime", "file")]
+  out <- files[, .(last_point = file_size(path)), by=c(data.table::key(files), "machine_id", "datetime", "file")]
   out[,
       path := paste( machine_id,
                      machine_name,

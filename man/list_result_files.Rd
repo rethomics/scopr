@@ -7,23 +7,18 @@
 list_result_files(result_dir, index_file = NULL)
 }
 \arguments{
-\item{result_dir}{the root directory where all data are saved}
+\item{result_dir}{the root directory where all data are saved, or the path to a remote directory.}
 
-\item{index_file}{the name of an index_file, in \code{result_dir} (useful for loading remote data).}
+\item{index_file}{the name of an index_file, in \code{result_dir} (needed for loading remote data).}
 }
 \value{
 a \link[data.table:data.table]{data.table::data.table}.
-each row is a single experimental file, and columns describe details such as: its \code{path}, start \code{date} and \code{time},
+Each row is a single experimental file, and columns describe details such as: its \code{path}, start \code{date} and \code{time},
 and the name and id of the ethoscope used.
 }
 \description{
 This function discovers all ethoscope result files and put them in a \link[data.table:data.table]{data.table::data.table}.
 This is useful to figure out when and which experiments were performed.
-}
-\examples{
-\donttest{
-todo
-}
 }
 \seealso{
 \itemize{

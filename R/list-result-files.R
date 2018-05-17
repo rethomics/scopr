@@ -3,21 +3,17 @@
 #' This function discovers all ethoscope result files and put them in a [data.table::data.table].
 #' This is useful to figure out when and which experiments were performed.
 #'
-#' @param result_dir the root directory where all data are saved
-#' @param index_file the name of an index_file, in `result_dir` (useful for loading remote data).
+#' @param result_dir the root directory where all data are saved, or the path to a remote directory.
+#' @param index_file the name of an index_file, in `result_dir` (needed for loading remote data).
 #' @return a [data.table::data.table].
-#' each row is a single experimental file, and columns describe details such as: its `path`, start `date` and `time`,
+#' Each row is a single experimental file, and columns describe details such as: its `path`, start `date` and `time`,
 #' and the name and id of the ethoscope used.
-#'
-#' @examples
-#' \donttest{
-#' todo
-#' }
 #' @seealso
 #' * [load_ethoscope] -- to load the actual data
 #' * [experiment_info] -- to show the metadata of a specific experiment
 #' @export
 list_result_files <- function(result_dir, index_file=NULL){
+  path = NULL
   key <- c("date", "time","machine_name")
 
   if(!is.null(index_file)){

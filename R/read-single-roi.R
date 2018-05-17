@@ -7,6 +7,8 @@ read_single_roi <- function( FILE,
                              columns = NULL,
                              time_stamp=NULL # only used for memoisation
                              ){
+
+  roi_idx = var_name = rois_idx = id = w = h = functional_type = sql_type = is_inferred = has_interacted = NULL
   experiment_info <- experiment_info(FILE)
 
   if(min_time >= max_time)

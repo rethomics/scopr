@@ -29,15 +29,14 @@ The default, \code{FALSE}, is to only fetch files if they are newer on the remot
 a \link[data.table:data.table]{data.table::data.table} with the same rows as x, and extra columns for further data loading
 }
 \description{
-These functions augment metadata so it can be subsequently loaded (via \link{load_ethoscope}).
+These functions augment metadata so it can be subsequently loaded (with \link{load_ethoscope}).
 }
 \details{
-These function will augment metadata from three different types of inputs (\code{x}):
+These function will augment metadata from two different types of inputs (\code{x}):
 \enumerate{
-\item A vector of names of \code{.db} files (only for local queries with \code{parse_query})
 \item A \link{data.frame} (recomended)
 In this case, the function will try to match requested data with data available on \code{result_dir}.
-The provided \link{data.table} has typically one row per requested individial and the columns
+The provided \link{data.table} has typically one row per requested individual and the columns
 (not necessarily in this order):
 \itemize{
 \item \code{machine_name} -- the name of the machine in which the individual was (e.g. \code{"ETHOSCOPE_001"})
@@ -47,21 +46,23 @@ The provided \link{data.table} has typically one row per requested individial an
 When \emph{not provided}, and multiple expriment for the same machine exist, \emph{only the last one is loaded}.
 \item \code{???} -- any number of arbitrary columns* to associate \code{conditions}/\code{treatments}/\code{genotypes}/... to the previous columns.
 }
-\item The name of a CSV file that contains a table as described in \code{2}.
+\item The name of a CSV file that contains a table as described in \code{1}.
 }
 }
 \examples{
-# metadata with no region_id, all regions will be loaded with the same metadata
+# Metadata with no region_id -> all regions will be loaded with the same metadata
 dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
 data(no_region_id_metadata)
 metadata <- link_ethoscope_metadata(no_region_id_metadata, dir)
 print(metadata)
-# metadata with region_id, only stated regions will be loaded with specific metadata
+
+# Metadata with region_id ->  only stated regions will be loaded with specific metadata
 data(region_id_metadata)
 metadata <- link_ethoscope_metadata(region_id_metadata, dir)
 print(metadata)
+
 \dontrun{
-# if your files are stored on a remote server,
+# If your files are stored on a remote server,
 # this will download to a local directory only the needed files
 REMOTE <- "ftp://a/remote/server/"
 LOCAL_DIR <- "/where/I/store/the/data/"
