@@ -20,6 +20,3 @@ directory. \code{scopr_example} allow  make them easy to access.
 # list all files
 scopr_example()
 }
-\author{
-Hadley Wickham  (modified from \code{readr})
-}

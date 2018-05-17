@@ -1,11 +1,12 @@
 Package: scopr
 Title: Read Ethoscope Data
-Date: 2017-08-08
-Version: 0.0.0.9000
+Date: 2018-05-17
+Version: 0.3.1
 Authors@R: c(
     person("Quentin", "geissmann", role = c("aut", "cre"), email = "qgeissmann@gmail.com")
     )
-Description: Retreive behavioural data from the Ethocope platform (http://gilestrolab.github.io/ethoscope/).
+Description: Handling of behavioural data from the Ethocope platform 
+(Geissmann, Garcia Rodriguez, Beckwith, French, Jamasb and Gilestro (2017) <DOI:10.1371/journal.pbio.2003026>).
 Depends:  
     R (>= 3.00),
     behavr
@@ -19,9 +20,10 @@ Imports:
 Suggests: 
     testthat,
     covr,
-    knitr
-Remotes:
-    rethomics/behavr    
+    knitr,
+    ggetho,
+    zeitgebr,
+    sleepr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

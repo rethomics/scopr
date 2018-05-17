@@ -12,6 +12,9 @@ link_ethoscope_metadata_remote <- function(x,
                                            overwrite_local=FALSE,
                                            verbose=TRUE){
 
+
+  path =dst_path = machine_id = machine_name = datetime = V2 = id = file_size__ =NULL
+
   query <- x
   # if query is a readable csv file, we parse it
   if(is.character(query) & length(query) == 1)

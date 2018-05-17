@@ -48,6 +48,7 @@
 #' * [metadata tutorial](https://rethomics.github.io/metadata.html) -- how to work with metadata
 #' @export
 link_ethoscope_metadata <- function(x, result_dir=NULL, index_file=NULL){
+  pay = experiment_id = n = .N = region_id = id = . = path = dst_path = NULL
   query <- x
   # if query is a readable csv file, we parse it
   if(is.character(query) & length(query) == 1)
@@ -86,7 +87,8 @@ link_ethoscope_metadata <- function(x, result_dir=NULL, index_file=NULL){
     # when user did not specify ROIs, we load them all.
 
     if(!"region_id" %in% colnames(query)){
-      m <- out[,list(region_id = list_all_rois(path)),by=key(out)]
+      m <- out[,list(region_id = list_all_rois(path)),
+               by = c(data.table::key(out))]
       out <- m[out]
     }
 

@@ -3,7 +3,7 @@ build_query <- function(result_dir,
                                   query = NULL,
                                   # use_cached = FALSE,
                                   index_file = NULL){
-
+  data = .SD = .N = time = n = machine_name = datetime = path = NULL
   files_info <- list_result_files(result_dir, index_file)
   unique_fi = files_info[,.SD[.N],by=key(files_info)]
 

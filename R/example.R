@@ -4,7 +4,6 @@
 #' directory. `scopr_example` allow  make them easy to access.
 #'
 #' @param path Name of file. If `NULL`, the example files will be listed.
-#' @author Hadley Wickham  (modified from `readr`)
 #' @export
 #' @examples
 #' # list all files
