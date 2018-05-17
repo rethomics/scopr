@@ -26,6 +26,20 @@ test_that("link_ethoscope_metadata with date and machine name", {
 })
 
 
+test_that("link_ethoscope_metadata with name of a text csv", {
+  dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+  query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
+                      date = c("2016-01-25", "2016-02-17","2016-01-25"),
+                      time = c("21:46:14", NA, NA),
+                      test=c(1,2,3)
+                      #                   lifespan=c(10,12, NA)
+  )
+  file <- tempfile(fileext = ".txt")
+  write.csv(query, file, row.names = F)
+  out <-  link_ethoscope_metadata(file, dir)
+  expect_equal(nrow(out), 60)
+})
+
 
 
 
