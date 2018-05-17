@@ -35,7 +35,12 @@ test_that("query ethoscopes works with multiple cores", {
   )
   query <- link_ethoscope_metadata(query, dir)
   dt <- load_ethoscope(query, verbose=F)
-  #fixme not on windows
-  dt_m <- load_ethoscope(query, ncores=2, verbose=F)
-  expect_identical(dt_m, dt)
+
+
+  if(.Platform$OS.type == "unix") {
+    dt_m <- load_ethoscope(query, ncores=2, verbose=F)
+    expect_identical(dt_m, dt)
+  } else {
+    message("skipping test, ncores >1 not supported on windows")
+  }
 })
