@@ -21,8 +21,7 @@ Suggests:
     covr,
     knitr,
     ggetho,
-    zeitgebr,
-    sleepr
+    zeitgebr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
