@@ -7,7 +7,10 @@ test_that("parse_single_roi works in normal conditions", {
 
   a <- scopr:::parse_single_roi(data, verbose = F)
   a <- scopr:::parse_single_roi(data, FUN= function(d){behavr::bin_apply_all(d,y = x)}, verbose = F)
-  a[meta=T]
+
+  expect_true(all(a[,id] == "xxx"))
+  expect_s3_class(a, "behavr")
+  expect_identical(a[meta=T], data)
 })
 
 

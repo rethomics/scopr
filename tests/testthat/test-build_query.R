@@ -38,7 +38,8 @@ test_that("build_query with date, machine name, and ROIs, and two experiments on
 
   out <- scopr:::build_query(dir, query)
 
-  #expect_equal(nrow(out), 3*3)
+  expect_equal(nrow(out), 3*5)
+  expect_equal(nrow(na.omit(out)), 3*5)
 })
 
 

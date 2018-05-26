@@ -1,7 +1,7 @@
 Package: scopr
 Title: Read Ethoscope Data
-Date: 2018-05-17
-Version: 0.3.1
+Date: 2018-05-26
+Version: 0.3.2
 Authors@R: c(
     person("Quentin", "Geissmann", role = c("aut", "cre"), email = "qgeissmann@gmail.com")
     )
@@ -11,6 +11,7 @@ Description: Handling of behavioural data from the Ethoscope platform
     interconnected raspberry pis (<https://www.raspberrypi.org>) designed to quantify the behaviour of multiple 
     small animals in a distributed and real-time fashion. The default tracking algorithm records primary variables
     such as xy coordinates, dimensions and speed.
+    This package is part of the rethomics framework <http://rethomics.github.io/>.
 Depends:  
     R (>= 3.00),
     behavr

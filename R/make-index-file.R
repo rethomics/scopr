@@ -5,7 +5,9 @@
 #' @return the path to the index file written (in `result_dir`))
 #' @inheritParams list_result_files
 #' @noRd
-make_index_file <- function(result_dir, index_file="index.txt"){
+make_index_file <- function(result_dir,
+                            index_file = paste(result_dir, "index.txt", sep="/")
+                              ){
 
   path = dst_path = machine_id = machine_name = datetime = V2 = id = file_size__ =NULL
 
@@ -24,12 +26,12 @@ make_index_file <- function(result_dir, index_file="index.txt"){
       ]
   out <- out[, .(path, last_point)]
 
-  out_file <- paste(result_dir, index_file, sep="/")
+
   write.table(out,
-              out_file,
+              index_file ,
               sep=",",
               row.names = FALSE,
               col.names = FALSE)
-  out_file
+  index_file
 }
 
