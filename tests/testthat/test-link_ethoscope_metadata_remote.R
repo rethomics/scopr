@@ -45,7 +45,7 @@ test_that("parse_query with date, machine name, and ROIs", {
 
   query <- data.table::as.data.table(query)
   query <- query[,.(region_id=1:5),by=c(colnames(query))]
-  query[, treatment := 1:3]
+  query[, treatment := rep(1:3, length.out=.N)]
 
   result_dir <- tempdir()
   out1 <- scopr:::link_ethoscope_metadata_remote(query,
