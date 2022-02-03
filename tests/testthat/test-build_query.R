@@ -24,6 +24,7 @@ test_that("build query works when time is supplied", {
 
 
 
+
 test_that("build_query with date, machine name, and ROIs, and two experiments on the same date, but different times!", {
   dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
   query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
@@ -92,3 +93,28 @@ test_that("missing results!", {
   expect_warning(out <- scopr:::build_query(dir, query),   "No result for machine_name == E_014, date == 2016-02-28")
   expect_equal(nrow(out), 2)
 })
+
+
+
+
+
+test_that("build query works datetime is a datetime, not a string (https://github.com/rethomics/scopr/issues/16)", {
+  dir <- paste0(scopr_example_dir(), "/ethoscope_results/")
+  query <- data.frame(machine_name = c("E_014", "E_014","E_029"),
+                      date = as.Date(c("2016-01-25", "2016-02-17","2016-01-25")),
+                      time = c("21:36:04", NA, NA),
+                      test=c(1,2,3)
+  )
+
+  print(query)
+  out <- scopr:::build_query(dir, query)
+  expect_equal(nrow(out), 3)
+
+})
+
+
+
+
+
+
+
