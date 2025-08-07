@@ -79,7 +79,7 @@ read_single_roi <- function( FILE,
         roi_dt[, (var_n) := get(var_n) / roi_width]
       }
       if(var_map[var_n, sql_type] == "BOOLEAN"){
-        roi_dt[, (var_n) := as.logical(get(var_n))]
+        roi_dt[, (var_n) := as.logical(as.numeric(get(var_n)))]
       }
     }
 
