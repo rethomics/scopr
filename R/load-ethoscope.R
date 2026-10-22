@@ -1,7 +1,7 @@
 #' Load data from ethoscope result files
 #'
 #' This function is used to import behavioural data generated
-#' by the [ethoscope platform](http://gilestrolab.github.io/ethoscope/).
+#' by the [ethoscope platform](https://ethoscope.net).
 #' That is it loads multiple `.db` files into a single `R` [behavr::behavr] table.
 #'
 #' @param metadata [data.table::data.table] used to load data (see detail)

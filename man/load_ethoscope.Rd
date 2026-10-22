@@ -44,7 +44,7 @@ Distance units (e.g. xy position, height/width) are expressed as a fraction of t
 }
 \description{
 This function is used to import behavioural data generated
-by the \href{http://gilestrolab.github.io/ethoscope/}{ethoscope platform}.
+by the \href{https://ethoscope.net}{ethoscope platform}.
 That is it loads multiple \code{.db} files into a single \code{R} \link[behavr:behavr]{behavr::behavr} table.
 }
 \details{
