@@ -7,7 +7,9 @@
 the condition (\code{test}) is linked to the experiments, and another condition (\code{treatment}) is per individual.
 It serves as a simple example.
 #'}
-\format{An object of class \code{data.frame} with 15 rows and 6 columns.}
+\format{
+An object of class \code{data.frame} with 15 rows and 6 columns.
+}
 \usage{
 region_id_metadata
 }

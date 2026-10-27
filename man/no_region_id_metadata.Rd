@@ -6,7 +6,9 @@
 \title{Simple toy metadata defining three experiments, with one condition (\code{test}) per experiment.
 Implicitly, 20 individuals are in each experiment
 It serves as a simple example.}
-\format{An object of class \code{data.frame} with 3 rows and 4 columns.}
+\format{
+An object of class \code{data.frame} with 3 rows and 4 columns.
+}
 \usage{
 no_region_id_metadata
 }

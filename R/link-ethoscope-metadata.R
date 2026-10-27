@@ -10,7 +10,7 @@
 #' These function will augment metadata from two different types of inputs (`x`):
 #' 1. A [data.frame] (recomended)
 #' In this case, the function will try to match requested data with data available on `result_dir`.
-#' The provided [data.table] has typically one row per requested individual and the columns
+#' The provided [data.table::data.table] has typically one row per requested individual and the columns
 #' (not necessarily in this order):
 #'     * `machine_name` -- the name of the machine in which the individual was (e.g. `"ETHOSCOPE_001"`)
 #'     * `date` -- the start date of the experiment formatted as `"YYYY-MM-DD"`

@@ -1,7 +1,7 @@
 Package: scopr
 Title: Read Ethoscope Data
-Date: 2022-02-03
-Version: 0.3.3
+Date: 2026-10-27
+Version: 0.3.6
 Authors@R: c(
     person("Quentin", "Geissmann", role = c("aut", "cre"), email = "qgeissmann@gmail.com")
     )
@@ -11,7 +11,7 @@ Description: Handling of behavioural data from the Ethoscope platform
     interconnected raspberry pis (<https://www.raspberrypi.org>) designed to quantify the behaviour of multiple 
     small animals in a distributed and real-time fashion. The default tracking algorithm records primary variables
     such as xy coordinates, dimensions and speed.
-    This package is part of the rethomics framework <http://rethomics.github.io/>.
+    This package is part of the rethomics framework <https://rethomics.github.io/>.
 Depends: 
     R (>= 3.00),
     behavr
@@ -32,5 +32,5 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/rethomics/scopr
 BugReports: https://github.com/rethomics/scopr/issues
-RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1
